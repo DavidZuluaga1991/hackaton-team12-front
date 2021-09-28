@@ -1,0 +1,44 @@
+
+<div class="bootcamp">
+    <div class="bootcamp__content" *ngIf="bootcamp && !bootcamp.edit">
+        <div class="bootcamp__content__actions_title">
+            <h3 class="bootcamp__content__actions_title__title">
+                {{ (!actions) ? bootcamp.empresa?.name + ' - ' : '' }}{{ bootcamp.title }}
+            </h3>
+            <div class="bootcamp__content__actions_title__actions" *ngIf="actions && isCompany">
+                <button mat-icon-button [routerLink]="['asociate/' + bootcamp._id]" >
+                    <mat-icon [matBadge]="bootcamp.users?.length" matBadgeColor="accent">visibility</mat-icon>
+                </button>
+                <button mat-icon-button (click)="bootcamp.edit = true; initFormGroup();"><mat-icon>edit</mat-icon></button>
+                <button mat-icon-button (click)="deleteBootcamp()"><mat-icon>delete</mat-icon></button>
+            </div>
+        </div>
+        <p class="bootcamp__content__description">
+            {{ bootcamp.description }}
+        </p>
+        <div class="bootcamp__content__annotated" *ngIf="!isCompany">
+            <button mat-button (click)="annotated()" *ngIf="!actions" [disabled]='annoted'>{{ annoted ? 'Anotado' : 'Anotar'}}</button>
+            <button mat-button *ngIf="actions" disabled>Cancelar</button>
+        </div>
+    </div>
+    <form [formGroup]="formGroup" class="bootcamp__content" *ngIf="formGroup && ((bootcamp && bootcamp.edit) || create)">
+        <div class="bootcamp__content__actions_title">
+            <div class="bootcamp__content__actions_title__title">
+                <mat-form-field class="field">
+                    <mat-label>Titulo</mat-label>
+                    <input matInput formControlName="title">
+                </mat-form-field>
+            </div>
+            <div class="bootcamp__content__actions_title__actions">
+                <button mat-icon-button type="button" (click)="bootcampSaveEdit()"><mat-icon>save</mat-icon></button>
+                <button mat-icon-button type="button" (click)="actionCloseEdit()"><mat-icon>close</mat-icon></button>
+            </div>
+        </div>
+        <div class="bootcamp__content__description">
+            <mat-form-field class="bootcamp__content__description__text_area">
+                <mat-label>Descripción</mat-label>
+                <textarea matInput formControlName="description"></textarea>
+            </mat-form-field>
+        </div>
+    </form>
+</div>
